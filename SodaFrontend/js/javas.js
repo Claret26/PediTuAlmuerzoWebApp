@@ -7,6 +7,18 @@ $( document ).ready(function() {
 		    messagingSenderId: "848893801760"
 		  };
 		  firebase.initializeApp(config);
+		  var secondaryApp = {
+			apiKey: "AIzaSyAKdweiacwRtC4-IfvON-RASEc22UJ5D_g",
+		  	authDomain: "pedi-tu-almuerzo-c34ef.firebaseapp.com",
+		    databaseURL: "https://pedi-tu-almuerzo-c34ef.firebaseio.com",
+		    storageBucket: "pedi-tu-almuerzo-c34ef.appspot.com",
+		    messagingSenderId: "848893801760"
+	};
+	firebase.initializeApp(secondaryApp, "Secondary");	  
+	var conexion =firebase.database().ref('/Pedidos');  
+		conexion.on('child_added',function(snapshot){
+			console.log("data: "+snapshot.val().fechaPedido);
+		});
 });
 var numSema ='1';
 
