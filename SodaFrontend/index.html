@@ -24,14 +24,14 @@
     <label id="labelSemana" class="mode">Semana 1</label><input type="image" src="img/next.png" alt="Submit" id="btnSemana"class=" circular"/>
         <div class="cd-projects-container">
             <ul class="cd-projects-previews">
-                <li>
+                <li id="lunespantalla">
                     <a href="#0">
                         <div class="cd-project-title">
                             <h2>Lunes</h2>
                         </div>
                     </a>
                 </li>
-                <li>
+                <li id="martespantalla"> 
                     <a href="#0">
                         <div class="cd-project-title">
                             <h2>Martes</h2>
@@ -39,7 +39,7 @@
                     </a>
                 </li>
 
-                <li>
+                <li id="miercolespantalla">
                     <a href="#0">
                         <div class="cd-project-title">
                             <h2>Miercoles</h2>
@@ -47,7 +47,7 @@
                     </a>
                 </li>
 
-                <li>
+                <li id="juevespantalla">
                     <a href="#0">
                         <div class="cd-project-title">
                             <h2>Jueves</h2>
@@ -55,7 +55,7 @@
                     </a>
                 </li>
 
-                <li>
+                <li id="viernespantalla">
                     <a href="#0">
                         <div class="cd-project-title">
                             <h2>Viernes</h2>
@@ -63,7 +63,7 @@
                     </a>
                 </li>
 
-                <li>
+                <li id="sabadopantalla">
                     <a href="#0">
                         <div class="cd-project-title">
                             <h2>Sabado</h2>
@@ -118,7 +118,7 @@
                             <div id="vertical-bar" class="col-sm-1 col-md-1 "></div>
                             <div class="col-xs-3 col-sm-3 col-md-3">
                                 </br></br></br><br>
-                                <h4 class="letras">Desayuno</h4><br><br>
+                                <h4 class="letras">Desayuno <button class="trans" id="pedidosld" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="ild" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -126,7 +126,7 @@
                             </div>
                             <div class="col-xs-3 col-sm-4 col-md-3 izqA">
                                 </br></br></br><br>
-                                <h4 class="letras">Almuerzo</h4><br><br>
+                                <h4 class="letras">Almuerzo <button class="trans" id="pedidosla" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="ila" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -190,7 +190,7 @@
                             <div id="vertical-bar" class="col-sm-1 col-md-1 "></div>
                             <div class="col-xs-3 col-sm-3 col-md-3">
                                 </br></br></br><br>
-                                <h4 class="letras">Desayuno</h4><br><br>
+                                <h4 class="letras">Desayuno <button class="trans" id="pedidosmd" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="imd" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -198,7 +198,7 @@
                             </div>
                             <div class="col-xs-3 col-sm-4 col-md-3 izqA">
                                 </br></br></br><br>
-                                <h4 class="letras">Almuerzo</h4><br><br>
+                                <h4 class="letras">Almuerzo <button class="trans" id="pedidosma" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="ima" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -260,7 +260,7 @@
                             <div id="vertical-bar" class="col-sm-1 col-md-1 "></div>
                             <div class="col-xs-3 col-sm-3 col-md-3">
                                 </br></br></br><br>
-                                <h4 class="letras">Desayuno</h4><br><br>
+                                <h4 class="letras">Desayuno <button class="trans" id="pedidosmid" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="imid" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -268,7 +268,7 @@
                             </div>
                             <div class="col-xs-3 col-sm-4 col-md-3 izqA">
                                 </br></br></br><br>
-                                <h4 class="letras">Almuerzo</h4><br><br>
+                                <h4 class="letras">Almuerzo <button class="trans" id="pedidosmia" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="imia" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -330,7 +330,7 @@
                             <div id="vertical-bar" class="col-sm-1 col-md-1 "></div>
                             <div class="col-xs-3 col-sm-3 col-md-3">
                                 </br></br></br><br>
-                                <h4 class="letras">Desayuno</h4><br><br>
+                                <h4 class="letras">Desayuno <button class="trans" id="pedidosjd" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="ijd" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -338,7 +338,7 @@
                             </div>
                             <div class="col-xs-3 col-sm-4 col-md-3 izqA">
                                 </br></br></br><br>
-                                <h4 class="letras">Almuerzo</h4><br><br>
+                                <h4 class="letras">Almuerzo <button class="trans" id="pedidosja" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="ija" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -400,7 +400,7 @@
                             <div id="vertical-bar" class="col-sm-1 col-md-1 "></div>
                             <div class="col-xs-3 col-sm-3 col-md-3">
                                 </br></br></br><br>
-                                <h4 class="letras">Desayuno</h4><br><br>
+                                <h4 class="letras">Desayuno <button class="trans" id="pedidosvd" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="ivd" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -408,7 +408,7 @@
                             </div>
                             <div class="col-xs-3 col-sm-4 col-md-3 izqA">
                                 </br></br></br><br>
-                                <h4 class="letras">Almuerzo</h4><br><br>
+                                <h4 class="letras">Almuerzo <button class="trans" id="pedidosva" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="iva" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -470,7 +470,7 @@
                             <div id="vertical-bar" class="col-sm-1 col-md-1 "></div>
                             <div class="col-xs-3 col-sm-3 col-md-3">
                                 </br></br></br><br>
-                                <h4 class="letras">Desayuno</h4><br><br>
+                                <h4 class="letras">Desayuno <button class="trans" id="pedidossd" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="isd" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -478,7 +478,7 @@
                             </div>
                             <div class="col-xs-3 col-sm-4 col-md-3 izqA">
                                 </br></br></br><br>
-                                <h4 class="letras">Almuerzo</h4><br><br>
+                                <h4 class="letras">Almuerzo <button class="trans" id="pedidossa" data-toggle="tooltip" title="Numero de Pedidos"> 0</button></h4><br><br>
                                 <p class="negrita letras">Platillo principal</p>
                                 <textarea  class="form-control trans" rows="4" id="isa" placeholder=".........     No componentes    ........."></textarea>
                                 <p class="negrita letras">Opcionales</p>
@@ -497,6 +497,32 @@
                 </li>
             </ul> <!-- .cd-projects -->
         </div> <!-- .cd-project-container -->
+
+ <!--modales-->
+        <div class="modal fade" tabindex="-1" role="dialog" id="mymodal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closenodal1"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Pedidos</h4>
+              </div>
+              <div class="modal-body">
+                <table class="table table-hover" id="tablepedidos" style="color: #000">
+                 <tr style="color: #000">
+                    <th style="font-weight:bold">Usuario</th>
+                    <th style="font-weight:bold">Platillo principal</th>
+                    <th style="font-weight:bold">Opcionales</th>
+                    <th style="font-weight:bold">Estado</th>
+                 </tr>
+                 
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="closemodal">Close</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
         <script src="js/main.js"></script> <!-- Resource jQuery -->
         <script src="js/javas.js"></script>

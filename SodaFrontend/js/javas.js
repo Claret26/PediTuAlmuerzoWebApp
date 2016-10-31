@@ -13,12 +13,20 @@ $( document ).ready(function() {
 		    databaseURL: "https://pedi-tu-almuerzo-c34ef.firebaseio.com",
 		    storageBucket: "pedi-tu-almuerzo-c34ef.appspot.com",
 		    messagingSenderId: "848893801760"
-	};
-	firebase.initializeApp(secondaryApp, "Secondary");	  
+			};
+			firebase.initializeApp(secondaryApp, "Secondary");	  
 	var conexion =firebase.database().ref('/Pedidos');  
 		conexion.on('child_added',function(snapshot){
 			console.log("data: "+snapshot.val().fechaPedido);
 		});
+		var tertiaryApp = {
+			apiKey: "AIzaSyAKdweiacwRtC4-IfvON-RASEc22UJ5D_g",
+		  	authDomain: "pedi-tu-almuerzo-c34ef.firebaseapp.com",
+		    databaseURL: "https://pedi-tu-almuerzo-c34ef.firebaseio.com",
+		    storageBucket: "pedi-tu-almuerzo-c34ef.appspot.com",
+		    messagingSenderId: "848893801760"
+			};
+			firebase.initializeApp(tertiaryApp, "Tertiary");
 });
 var numSema ='1';
 
@@ -456,4 +464,126 @@ $('#btnpos').click(function(){
 	}
 	$('#pos').val("");
 	$('#ppos').val("");
+});
+
+
+$('#pedidosla').click(function(){
+	var n="";
+	$('#mymodal').modal('show');
+	var conexion =firebase.database().ref('/Pedidos');  
+		conexion.on('child_added',function(snapshot){
+		var keyplate = snapshot.val().items.o.plato.idPlato;
+
+			var terConexion = firebase.database().ref("/UsuarioServicio");
+		 	terConexion.on('child_added',function(snapshotDataT){
+		 		if(snapshot.val().usuario.idUsuario == snapshotDataT.key){
+		 			n= snapshotDataT.val().nombreUsuario +" "+snapshotDataT.val().primerApellido+" "+snapshotDataT.val().segundoApellido;
+		 		}
+		 	});
+		
+		var rootref = firebase.database().ref("/platillos");
+		 	rootref.on('child_added',function(snapshotData){
+
+		 		if(snapshotData.key == keyplate && snapshotData.val().dia_semana == "lunes" && snapshotData.val().tiempo_comida == "a"){
+						var table = document.getElementById("tablepedidos"),
+			            row = table.insertRow(-1),//-1 es para ponerlo al final
+			            cell1 = row.insertCell(0),
+			            cell2 = row.insertCell(1),
+			            cell3 = row.insertCell(2),
+			            cell4 = row.insertCell(3);
+
+			           user = n, 
+			           almuerzo= snapshot.val().items.o.cantidad,
+			           opcionales= snapshot.val().estado,
+			           estado= snapshot.val().estado;
+			           cell1.innerHTML =user;
+			           cell2.innerHTML = almuerzo;
+			           cell3.innerHTML = opcionales;
+			           cell4.innerHTML = estado;
+		 		}
+		 	});
+			
+		});
+});
+$('#pedidosld').click(function(){
+	var n="";
+	$('#mymodal').modal('show');
+	var conexion =firebase.database().ref('/Pedidos');  
+		conexion.on('child_added',function(snapshot){
+		var keyplate = snapshot.val().items.o.plato.idPlato;
+
+			var terConexion = firebase.database().ref("/UsuarioServicio");
+		 	terConexion.on('child_added',function(snapshotDataT){
+		 		if(snapshot.val().usuario.idUsuario == snapshotDataT.key){
+		 			n= snapshotDataT.val().nombreUsuario +" "+snapshotDataT.val().primerApellido+" "+snapshotDataT.val().segundoApellido;
+		 		}
+		 	});
+		
+		var rootref = firebase.database().ref("/platillos");
+		 	rootref.on('child_added',function(snapshotData){
+
+		 		if(snapshotData.key == keyplate && snapshotData.val().dia_semana == "lunes" && snapshotData.val().tiempo_comida == "d"){
+						var table = document.getElementById("tablepedidos"),
+			            row = table.insertRow(-1),//-1 es para ponerlo al final
+			            cell1 = row.insertCell(0),
+			            cell2 = row.insertCell(1),
+			            cell3 = row.insertCell(2),
+			            cell4 = row.insertCell(3);
+
+			           user = n, 
+			           almuerzo= snapshot.val().items.o.cantidad,
+			           opcionales= snapshot.val().estado,
+			           estado= snapshot.val().estado;
+			           cell1.innerHTML =user;
+			           cell2.innerHTML = almuerzo;
+			           cell3.innerHTML = opcionales;
+			           cell4.innerHTML = estado;
+		 		}
+		 	});
+			
+		});
+});
+$('#closemodal').click(function(){
+	$("#tablepedidos td").remove();
+});
+$('#closemodal1').click(function(){
+	$("#tablepedidos td").remove();
+});
+
+$('#lunespantalla').click(function(){
+	localStorage.setItem("day", "Lunes");
+
+	var contadorAlmuerzo=0;
+	var contadorDesayuno=0;
+
+	var conexion =firebase.database().ref('/Pedidos');  
+		conexion.on('child_added',function(snapshot){
+		var keyplate = snapshot.val().items.o.plato.idPlato;
+		
+		var rootref = firebase.database().ref("/platillos");
+		 	rootref.on('child_added',function(snapshotData){
+
+		 		if(snapshotData.key == keyplate){
+
+		 			if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "lunes"){
+		 				contadorAlmuerzo += parseInt(snapshot.val().items.o.cantidad);
+		 				$('#pedidosla').text(contadorAlmuerzo+"");
+		 			}
+		 			if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "lunes"){
+		 				contadorDesayuno += parseInt(snapshot.val().items.o.cantidad);
+		 				$('#pedidosld').text(contadorDesayuno+"");
+		 			}
+		 		}
+		 	});
+			
+		});
+
+});
+
+
+
+
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
 });
