@@ -466,9 +466,98 @@ $('#btnpos').click(function(){
 	$('#ppos').val("");
 });
 
-/*--------lunes manejo de  pedidos ----------*/
-setInterval(function lunesAlmuerzo(){
+/*------------------------------------------- manejo de  pedidos -------------------------------*/
+$('#lunespantalla').click(function(){
+	localStorage.setItem("day", "lunes");
+	
+});
+$('#martespantalla').click(function(){
+	localStorage.setItem("day", "martes");
+	
+});
+$('#miercolespantalla').click(function(){
+	localStorage.setItem("day", "miercoles");
+	
+});
+$('#juevespantalla').click(function(){
+	localStorage.setItem("day", "jueves");
+	
+});
+$('#viernespantalla').click(function(){
+	localStorage.setItem("day", "viernes");
+	
+});
+$('#sabadopantalla').click(function(){
+	localStorage.setItem("day", "sabado");
+	
+});
+/*------------------------------ manejo contador de  pedidos ---------------------------------------*/
+setInterval(function calculapedidos(){
+	var contadorAlmuerzo=0;
+	var contadorDesayuno=0;
+
+	var conexion =firebase.database().ref('/Pedidos');  
+		conexion.on('child_added',function(snapshot){
+
+		var keyplate = "";
+		var cuenta;
+		var cuenta2;
+		snapshot.val().items.forEach(function(item){
+			keyplate = item.plato.idPlato;
+			cuenta =item.cantidad;
+
+		var rootref = firebase.database().ref("/platillos");
+		 	rootref.on('child_added',function(snapshotData){
+
+		 		if(snapshotData.key == keyplate){
+
+		 			if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "lunes"){
+		 				contadorAlmuerzo += parseInt(cuenta);
+		 				$('#pedidosla').text(contadorAlmuerzo+"");
+		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "lunes"){
+		 				contadorDesayuno += parseInt(cuenta);
+		 				$('#pedidosld').text(contadorDesayuno+"");
+		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "martes"){
+		 				contadorDesayuno += parseInt(cuenta);
+		 				$('#pedidosmd').text(contadorDesayuno+"");
+		 			}else if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "martes"){
+		 				contadorAlmuerzo += parseInt(cuenta);
+		 				$('#pedidosma').text(contadorDesayuno+"");
+		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "miercoles"){
+		 				contadorDesayuno += parseInt(cuenta);
+		 				$('#pedidosmid').text(contadorDesayuno+"");
+		 			}else if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "miercoles"){
+		 				contadorAlmuerzo += parseInt(cuenta);
+		 				$('#pedidosmia').text(contadorDesayuno+"");
+		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "jueves"){
+		 				contadorDesayuno += parseInt(cuenta);
+		 				$('#pedidosjd').text(contadorDesayuno+"");
+		 			}else if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "jueves"){
+		 				contadorDesayuno += parseInt(cuenta);
+		 				$('#pedidosja').text(contadorDesayuno+"");
+		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "viernes"){
+		 				contadorDesayuno += parseInt(cuenta);
+		 				$('#pedidosvd').text(contadorDesayuno+"");
+		 			}else if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "viernes"){
+		 				contadorDesayuno += parseInt(cuenta);
+		 				$('#pedidosva').text(contadorDesayuno+"");
+		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "sabado"){
+		 				contadorDesayuno += parseInt(cuenta);
+		 				$('#pedidossd').text(contadorDesayuno+"");
+		 			}else{
+		 				contadorDesayuno += parseInt(cuenta);
+		 				$('#pedidossa').text(contadorDesayuno+"");
+		 			}
+		 		}
+		 	});
+			
+		});
+	});
+},3000);
+/*----------------------------------------manejo tabla de pedidos--------------------------------------------------------*/
+setInterval(function manejoAlmuerzo(){
 	$("#tablepedidos td").remove();
+	var n;
 	var conexion =firebase.database().ref('/Pedidos');  
 		conexion.on('child_added',function(snapshot){
 		var keyplate = "";
@@ -487,7 +576,7 @@ setInterval(function lunesAlmuerzo(){
 				var rootref = firebase.database().ref("/platillos");
 			 	rootref.on('child_added',function(snapshotData){
 
-			 		if(snapshotData.key == keyplate && snapshotData.val().dia_semana == "lunes" && snapshotData.val().tiempo_comida == "a"){
+			 		if(snapshotData.key == keyplate && snapshotData.val().dia_semana == localStorage.getItem("day") && snapshotData.val().tiempo_comida == "a"){
 
 							var table = document.getElementById("tablepedidos"),
 				            row = table.insertRow(-1),//-1 es para ponerlo al final
@@ -513,7 +602,7 @@ setInterval(function lunesAlmuerzo(){
 
 		
 },3000);  	
-$('#pedidosla').click(function(){//llena tabla de pedidos de almuerzo
+$('#pedidosla').click(function(){
 	var n="";
 	$('#mymodal').modal('show');
 });
@@ -524,8 +613,9 @@ $('#closemodal1').click(function(){
 	$("#tablepedidos td").remove();
 });
 
-setInterval(function lunesDesayuno(){
+setInterval(function manejoDesayuno(){
 	$("#tablepedidos2 td").remove();
+	var n;
 	almuerzoAbieto=0;
 	var conexion =firebase.database().ref('/Pedidos');  
 		conexion.on('child_added',function(snapshot){
@@ -546,7 +636,7 @@ setInterval(function lunesDesayuno(){
 		var rootref = firebase.database().ref("/platillos");
 		 	rootref.on('child_added',function(snapshotData){
 
-		 		if(snapshotData.key == keyplate && snapshotData.val().dia_semana == "lunes" && snapshotData.val().tiempo_comida == "d"){
+		 		if(snapshotData.key == keyplate && snapshotData.val().dia_semana == localStorage.getItem("day") && snapshotData.val().tiempo_comida == "d"){
 						var table = document.getElementById("tablepedidos2"),
 			            row = table.insertRow(-1),//-1 es para ponerlo al final
 			            cell1 = row.insertCell(0),
@@ -568,8 +658,7 @@ setInterval(function lunesDesayuno(){
 			
 		});
 },3000); 
-$('#pedidosld').click(function(){//llena tabla de pedidos de desayuno
-	var n="";
+$('#pedidosld').click(function(){
 	$('#mymodal2').modal('show');
 });
 
@@ -580,43 +669,38 @@ $('#closemodal1').click(function(){
 	$("#tablepedidos td").remove();
 });
 
-$('#lunespantalla').click(setInterval(function(){//cuenta la cantidad de desayunos y almuerzos para el dia lunes
-	localStorage.setItem("day", "Lunes");
-
-	var contadorAlmuerzo=0;
-	var contadorDesayuno=0;
-
-	var conexion =firebase.database().ref('/Pedidos');  
-		conexion.on('child_added',function(snapshot){
-
-		var keyplate = "";
-		var cuenta;
-		var cuenta2;
-		snapshot.val().items.forEach(function(item){
-			keyplate = item.plato.idPlato;
-			cuenta =item.cantidad;
-
-		var rootref = firebase.database().ref("/platillos");
-		 	rootref.on('child_added',function(snapshotData){
-
-		 		if(snapshotData.key == keyplate){
-
-		 			if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "lunes"){
-		 				contadorAlmuerzo += parseInt(cuenta);
-		 				$('#pedidosla').text(contadorAlmuerzo+"");
-		 			}
-		 			if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "lunes"){
-		 				contadorDesayuno += parseInt(cuenta);
-		 				$('#pedidosld').text(contadorDesayuno+"");
-		 			}
-		 		}
-		 	});
-			
-		});
-	});
-},3000));
-
+$('#pedidosma').click(function(){
+	$('#mymodal').modal('show');
+});
+$('#pedidosmd').click(function(){
+	$('#mymodal2').modal('show');
+});
+$('#pedidosmia').click(function(){
+	$('#mymodal').modal('show');
+});
+$('#pedidosmid').click(function(){
+	$('#mymodal2').modal('show');
+});
+$('#pedidosja').click(function(){
+	$('#mymodal').modal('show');
+});
+$('#pedidosjd').click(function(){
+	$('#mymodal2').modal('show');
+});
+$('#pedidosva').click(function(){
+	$('#mymodal').modal('show');
+});
+$('#pedidosvd').click(function(){
+	$('#mymodal2').modal('show');
+});
+$('#pedidossa').click(function(){
+	$('#mymodal').modal('show');
+});
+$('#pedidossd').click(function(){
+	$('#mymodal2').modal('show');
+});
 /*--------martes manejo de  pedidos ----------*/
+
 
 
 /*$('#pedidosma').click(function(){
