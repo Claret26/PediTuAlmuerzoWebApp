@@ -467,13 +467,13 @@ $('#btnpos').click(function(){
 });
 
 /*--------lunes manejo de  pedidos ----------*/
-$('#pedidosla').click(function(){//llena tabla de pedidos de almuerzo
-	var n="";
-	$('#mymodal').modal('show');
+setInterval(function lunesAlmuerzo(){
+	$("#tablepedidos td").remove();
 	var conexion =firebase.database().ref('/Pedidos');  
 		conexion.on('child_added',function(snapshot){
 		var keyplate = "";
 		var cantidadPla;
+
 			snapshot.val().items.forEach(function(item){
 					keyplate = item.plato.idPlato;
 					cantidadPla = item.cantidad;
@@ -488,6 +488,7 @@ $('#pedidosla').click(function(){//llena tabla de pedidos de almuerzo
 			 	rootref.on('child_added',function(snapshotData){
 
 			 		if(snapshotData.key == keyplate && snapshotData.val().dia_semana == "lunes" && snapshotData.val().tiempo_comida == "a"){
+
 							var table = document.getElementById("tablepedidos"),
 				            row = table.insertRow(-1),//-1 es para ponerlo al final
 				            cell1 = row.insertCell(0),
@@ -503,11 +504,18 @@ $('#pedidosla').click(function(){//llena tabla de pedidos de almuerzo
 				           cell2.innerHTML = almuerzo;
 				           cell3.innerHTML = total;
 				           cell4.innerHTML = estado;
+
 			 		}
 			 	});
 			
 		});
 	});
+
+		
+},3000);  	
+$('#pedidosla').click(function(){//llena tabla de pedidos de almuerzo
+	var n="";
+	$('#mymodal').modal('show');
 });
 $('#closemodal').click(function(){
 	$("#tablepedidos td").remove();
@@ -516,9 +524,9 @@ $('#closemodal1').click(function(){
 	$("#tablepedidos td").remove();
 });
 
-$('#pedidosld').click(function(){//llena tabla de pedidos de desayuno
-	var n="";
-	$('#mymodal').modal('show');
+setInterval(function lunesDesayuno(){
+	$("#tablepedidos2 td").remove();
+	almuerzoAbieto=0;
 	var conexion =firebase.database().ref('/Pedidos');  
 		conexion.on('child_added',function(snapshot){
 		var keyplate = "";
@@ -539,7 +547,7 @@ $('#pedidosld').click(function(){//llena tabla de pedidos de desayuno
 		 	rootref.on('child_added',function(snapshotData){
 
 		 		if(snapshotData.key == keyplate && snapshotData.val().dia_semana == "lunes" && snapshotData.val().tiempo_comida == "d"){
-						var table = document.getElementById("tablepedidos"),
+						var table = document.getElementById("tablepedidos2"),
 			            row = table.insertRow(-1),//-1 es para ponerlo al final
 			            cell1 = row.insertCell(0),
 			            cell2 = row.insertCell(1),
@@ -559,7 +567,12 @@ $('#pedidosld').click(function(){//llena tabla de pedidos de desayuno
 		 	});
 			
 		});
+},3000); 
+$('#pedidosld').click(function(){//llena tabla de pedidos de desayuno
+	var n="";
+	$('#mymodal2').modal('show');
 });
+
 $('#closemodal').click(function(){
 	$("#tablepedidos td").remove();
 });
@@ -578,9 +591,11 @@ $('#lunespantalla').click(setInterval(function(){//cuenta la cantidad de desayun
 
 		var keyplate = "";
 		var cuenta;
+		var cuenta2;
 		snapshot.val().items.forEach(function(item){
 			keyplate = item.plato.idPlato;
 			cuenta =item.cantidad;
+
 		var rootref = firebase.database().ref("/platillos");
 		 	rootref.on('child_added',function(snapshotData){
 
@@ -591,15 +606,15 @@ $('#lunespantalla').click(setInterval(function(){//cuenta la cantidad de desayun
 		 				$('#pedidosla').text(contadorAlmuerzo+"");
 		 			}
 		 			if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "lunes"){
-		 				contadorDesayuno += parseInt(snapshot.val().items.o.cantidad);
+		 				contadorDesayuno += parseInt(cuenta);
 		 				$('#pedidosld').text(contadorDesayuno+"");
 		 			}
 		 		}
 		 	});
 			
 		});
-		});
-}),30000000);
+	});
+},3000));
 
 /*--------martes manejo de  pedidos ----------*/
 
