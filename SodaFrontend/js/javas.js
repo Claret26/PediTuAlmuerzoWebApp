@@ -60,33 +60,60 @@ var cadenaDO="";
 var cadenaAP="";
 var cadenaAO="";
 
+var itemComponente = new Object();
+var componente = new Object();
+var item = new Object();
+
 
 function guardarPlatilloBD(numSemana, diaSemana, tiempoComida, ingredientes, precio, tipoPlato){
 	
 		  var rootref = firebase.database().ref("/platillos").push();
 		  rootref.set({
-				numsemana: numSemana,
-				dia_semana: diaSemana,
-				tiempo_comida: tiempoComida,
-				ingredientes: ingredientes,
-				precio_pla: precio,
-				tipo_plato: tipoPlato
+		  		categoria:{
+		  			nombreTiempoComida: tiempoComida,
+		  		},
+		  		dia:{
+		  			nombreDia: diaSemana,
+		  		},
+		  		semana:{
+		  			numeroSemana: numSemana,
+		  		},
+		  		items: ingredientes,
+		  		opcional: tipoPlato,
+		  		precioPlatillo:precio, 
+				//numsemana: numSemana,
+				//dia_semana: diaSemana,
+				//tiempo_comida: tiempoComida,
+				//ingredientes: ingredientes,
+				//precio_pla: precio,
+				//tipo_plato: tipoPlato
 		});
 }
 var cadenaDPa="";
 var cadenaDOa="";
 var cadenaAPa="";
 var cadenaAOa="";
+var ingredientesAL= [];
+var ingredientesDL= [];
+var ingredientesALo= [];
+var ingredientesDLo= [];
+var contador = 0;
+var contadora = 0; 
 /*lunes*/
-$('#btnl').click(function(){
+$('#btnl').click(function(){/*LLena el text area con la info ingresada*/
 	if(tiempoComida == 'd'){
 		cadenaDP += "- "+$('#ppl').val() +"\n ";
 		cadenaDPa += $('#ppl').val()+". ";
+
+		item =(ingredientesDL[parseInt(contador)] = (itemComponente = (componente.nombreComponentePlato = $('#ppl').val())));
 		$('#ild').text( cadenaDP);
+		contador ++;
 	}else{
 		cadenaAP += "- "+$('#ppl').val() +"\n ";
 		cadenaAPa += $('#ppl').val()+". ";
+		ingredientesAL[parseInt(contadora)] = (itemComponente =(componente.nombreComponentePlato = $('#ppl').val()));
 		$('#ila').text( cadenaAP);
+		contadora ++;
 	}
 	$('#ppl').val("");
 });
@@ -95,12 +122,16 @@ $('#btnpl').click(function(){
 		cadenaDP += " \t Precio: "+$('#pppl').val() +"\n ";
 		$('#ild').text( cadenaDP);
 		var preciovar = ''+$('#pppl').val();
-		guardarPlatilloBD(numSema,'lunes', tiempoComida, cadenaDPa, preciovar, 'principal');
+		guardarPlatilloBD(numSema,'lunes', tiempoComida, item, preciovar, 'false');
+		contador=0;
+		ingredientesDL.length=0;
 	}else{
 		cadenaAP += "\t Precio:"+$('#pppl').val() +"\n ";
 		$('#ila').text( cadenaAP);
 		var preciovar = ''+$('#pppl').val();
-		guardarPlatilloBD(numSema,'lunes', tiempoComida, cadenaAPa, preciovar, 'principal');
+		guardarPlatilloBD(numSema,'lunes', tiempoComida, ingredientesAL, preciovar, 'false');
+		contadora=0;
+		ingredientesAL.length=0;
 	}
 	$('#pppl').val("");
 	cadenaDPa="";
@@ -112,13 +143,14 @@ $('#btnpol').click(function(){
 		cadenaDOa = $('#pol').val()+" ";
 		$('#iold').text( cadenaDO);
 		var preciovar = ''+ $('#ppol').val();
-		guardarPlatilloBD(numSema,'lunes', tiempoComida, cadenaDOa, preciovar, 'opcional');
+		guardarPlatilloBD(numSema,'lunes', tiempoComida, cadenaDOa, preciovar, 'true');
 	}else{	
 		cadenaAO += "- "+$('#pol').val() +"\n \tPrecio: "+ $('#ppol').val()+"\n";
 		cadenaAOa = $('#pol').val()+" ";
 		$('#iola').text( cadenaAO);
 		var preciovar = ''+ $('#ppol').val();
-		guardarPlatilloBD(numSema,'lunes', tiempoComida, cadenaAOa, preciovar, 'opcional');
+		guardarPlatilloBD(numSema,'lunes', tiempoComida, cadenaAOa, preciovar, 'true');
+
 	}
 	$('#pol').val("");
 	$('#ppol').val("");
@@ -493,6 +525,18 @@ $('#sabadopantalla').click(function(){
 });
 /*------------------------------ manejo contador de  pedidos ---------------------------------------*/
 setInterval(function calculapedidos(){
+	$('#pedidosla').text("0");
+	$('#pedidosld').text("0");
+	$('#pedidosmd').text("0");
+	$('#pedidosma').text("0");
+	$('#pedidosmid').text("0");
+	$('#pedidosmia').text("0");
+	$('#pedidosjd').text("0");
+	$('#pedidosja').text("0");
+	$('#pedidosva').text("0");
+	$('#pedidosvd').text("0");
+	$('#pedidossa').text("0");
+	$('#pedidossd').text("0");
 	var contadorAlmuerzo=0;
 	var contadorDesayuno=0;
 
@@ -506,42 +550,42 @@ setInterval(function calculapedidos(){
 			keyplate = item.plato.idPlato;
 			cuenta =item.cantidad;
 
-		var rootref = firebase.database().ref("/platillos");
+		var rootref = firebase.database().ref("/Platos");
 		 	rootref.on('child_added',function(snapshotData){
-
+		 			
 		 		if(snapshotData.key == keyplate){
 
-		 			if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "lunes"){
+		 			if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo" && snapshotData.val().dia.nombreDia == "lunes"){
 		 				contadorAlmuerzo += parseInt(cuenta);
 		 				$('#pedidosla').text(contadorAlmuerzo+"");
-		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "lunes"){
+		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "lunes"){
 		 				contadorDesayuno += parseInt(cuenta);
 		 				$('#pedidosld').text(contadorDesayuno+"");
-		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "martes"){
+		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "martes"){
 		 				contadorDesayuno += parseInt(cuenta);
 		 				$('#pedidosmd').text(contadorDesayuno+"");
-		 			}else if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "martes"){
+		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo" && snapshotData.val().dia.nombreDia == "martes"){
 		 				contadorAlmuerzo += parseInt(cuenta);
 		 				$('#pedidosma').text(contadorAlmuerzo+"");
-		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "miercoles"){
+		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "miercoles"){
 		 				contadorDesayuno += parseInt(cuenta);
 		 				$('#pedidosmid').text(contadorDesayuno+"");
-		 			}else if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "miercoles"){
+		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo" && snapshotData.val().dia.nombreDia == "miercoles"){
 		 				contadorAlmuerzo += parseInt(cuenta);
 		 				$('#pedidosmia').text(contadorAlmuerzo+"");
-		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "jueves"){
+		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "jueves"){
 		 				contadorDesayuno += parseInt(cuenta);
 		 				$('#pedidosjd').text(contadorDesayuno+"");
-		 			}else if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "jueves"){
+		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo" && snapshotData.val().dia.nombreDia == "jueves"){
 		 				contadorAlmuerzo += parseInt(cuenta);
 		 				$('#pedidosja').text(contadorAlmuerzo+"");
-		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "viernes"){
+		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "viernes"){
 		 				contadorDesayuno += parseInt(cuenta);
 		 				$('#pedidosvd').text(contadorDesayuno+"");
-		 			}else if(snapshotData.val().tiempo_comida == "a" && snapshotData.val().dia_semana == "viernes"){
+		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo" && snapshotData.val().dia.nombreDia == "viernes"){
 		 				contadorAlmuerzo += parseInt(cuenta);
 		 				$('#pedidosva').text(contadorAlmuerzo+"");
-		 			}else if(snapshotData.val().tiempo_comida == "d" && snapshotData.val().dia_semana == "sabado"){
+		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "sabado"){
 		 				contadorDesayuno += parseInt(cuenta);
 		 				$('#pedidossd').text(contadorDesayuno+"");
 		 			}else{
@@ -562,10 +606,12 @@ setInterval(function manejoAlmuerzo(){
 		conexion.on('child_added',function(snapshot){
 		var keyplate = "";
 		var cantidadPla;
+		var comenta = "";
 
 			snapshot.val().items.forEach(function(item){
 					keyplate = item.plato.idPlato;
 					cantidadPla = item.cantidad;
+					comenta = item.comentarios;
 				var terConexion = firebase.database().ref("/UsuarioServicio");
 			 	terConexion.on('child_added',function(snapshotDataT){
 			 		if(snapshot.val().usuario.idUsuario == snapshotDataT.key){
@@ -573,26 +619,34 @@ setInterval(function manejoAlmuerzo(){
 			 		}
 			 	});
 			
-				var rootref = firebase.database().ref("/platillos");
+				var rootref = firebase.database().ref("/Platos");
 			 	rootref.on('child_added',function(snapshotData){
+			 		var tipoCo = "";
+			 		
 
-			 		if(snapshotData.key == keyplate && snapshotData.val().dia_semana == localStorage.getItem("day") && snapshotData.val().tiempo_comida == "a"){
+			 		if(snapshotData.key == keyplate && snapshotData.val().dia.nombreDia == localStorage.getItem("day") && snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo"){
 
 							var table = document.getElementById("tablepedidos"),
 				            row = table.insertRow(-1),//-1 es para ponerlo al final
 				            cell1 = row.insertCell(0),
 				            cell2 = row.insertCell(1),
 				            cell3 = row.insertCell(2),
-				            cell4 = row.insertCell(3);
+				            cell4 = row.insertCell(3),
+				            cell5 = row.insertCell(4),
+				            cell6 = row.insertCell(5);
 
 				           user = n, 
 				           almuerzo= cantidadPla,
-				           total=  parseInt(snapshotData.val().precio_pla)*  parseInt(cantidadPla),
+				           total=  parseInt(snapshotData.val().precioPlato)*  parseInt(cantidadPla),
+				           tipoPlatillo = snapshotData.val().opcional,
+				           comentarios = comenta,
 				           estado= snapshot.val().estado;
 				           cell1.innerHTML =user;
-				           cell2.innerHTML = almuerzo;
-				           cell3.innerHTML = total;
-				           cell4.innerHTML = estado;
+				           cell2.innerHTML = tipoPlatillo;
+				           cell3.innerHTML = almuerzo;
+				           cell4.innerHTML = total;
+				           cell5.innerHTML = comentarios;
+				           cell6.innerHTML = estado;
 
 			 		}
 			 	});
@@ -621,10 +675,12 @@ setInterval(function manejoDesayuno(){
 		conexion.on('child_added',function(snapshot){
 		var keyplate = "";
 		var cantidadPla;
+		var comenta = "";
 		var percioPla;
 			snapshot.val().items.forEach(function(item){
 					keyplate = item.plato.idPlato;
 					cantidadPla = item.cantidad;
+					comenta = item.comentarios;
 
 			var terConexion = firebase.database().ref("/UsuarioServicio");
 		 	terConexion.on('child_added',function(snapshotDataT){
@@ -633,25 +689,31 @@ setInterval(function manejoDesayuno(){
 		 		}
 		 	});
 		
-		var rootref = firebase.database().ref("/platillos");
+		var rootref = firebase.database().ref("/Platos");
 		 	rootref.on('child_added',function(snapshotData){
 
-		 		if(snapshotData.key == keyplate && snapshotData.val().dia_semana == localStorage.getItem("day") && snapshotData.val().tiempo_comida == "d"){
+		 		if(snapshotData.key == keyplate && snapshotData.val().dia.nombreDia == localStorage.getItem("day") && snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno"){
 						var table = document.getElementById("tablepedidos2"),
 			            row = table.insertRow(-1),//-1 es para ponerlo al final
 			            cell1 = row.insertCell(0),
 			            cell2 = row.insertCell(1),
 			            cell3 = row.insertCell(2),
-			            cell4 = row.insertCell(3);
+			            cell4 = row.insertCell(3),
+				        cell5 = row.insertCell(4),
+				        cell6 = row.insertCell(5);
 
 			           user = n, 
 			           almuerzo= cantidadPla,
 			           total=  parseInt(snapshotData.val().precio_pla)*  parseInt(cantidadPla),
+			           tipoPlatillo = snapshotData.val().opcional,
+				       comentarios = comenta,
 			           estado= snapshot.val().estado;
 			           cell1.innerHTML =user;
-			           cell2.innerHTML = almuerzo;
-			           cell3.innerHTML = total;
-			           cell4.innerHTML = estado;
+			           cell2.innerHTML = tipoPlatillo;
+			           cell3.innerHTML = almuerzo;
+			           cell4.innerHTML = total;
+			           cell5.innerHTML = comentarios;
+			           cell6.innerHTML = estado;
 		 		}
 		 	});
 		 	});
