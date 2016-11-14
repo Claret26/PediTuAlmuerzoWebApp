@@ -69,6 +69,17 @@ position: absolute;
   right: 2%;
 }
 
+.circulara{
+  border-radius: 193px 193px 193px 193px;
+-moz-border-radius: 193px 193px 193px 193px;
+-webkit-border-radius: 193px 193px 193px 193px;
+border: 0px none #000000; 
+  z-index: 5 !important;
+}
+.zise{
+  font-size: 18px;
+}
+
 .mode {
   position: absolute;
   z-index: 4;
