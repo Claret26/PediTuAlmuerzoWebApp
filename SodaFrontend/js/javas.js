@@ -30,14 +30,18 @@ $( document ).ready(function() {
 
 });
 var numSema ='1';
+localStorage.setItem("week", "1");
 
 	    $( "#btnSemana" ).click(function() {
 	    	if (numSema == '3') {
 	    		numSema = '1';
+	    		localStorage.setItem("week", "1");
 	    	}else if(numSema == '2'){
 	    		numSema = '3';
+	    		localStorage.setItem("week", "3");
 	    	}else{
 	    		numSema = '2';
+	    		localStorage.setItem("week", "2");
 	    	}
  			 document.getElementById('labelSemana').innerHTML = 'Semana '+ numSema;
 		});
@@ -569,8 +573,30 @@ setInterval(function calculapedidos(){
 	$('#pedidosvd').text("0");
 	$('#pedidossa').text("0");
 	$('#pedidossd').text("0");
+	$('#idPedidosAlmuerzoL').text("0");
+	$('#idPedidosDesayunoL').text("0");
+	$('#idPedidosAlmuerzoM').text("0");
+	$('#idPedidosDesayunoM').text("0");
+	$('#idPedidosAlmuerzoI').text("0");
+	$('#idPedidosDesayunoI').text("0");
+	$('#idPedidosAlmuerzoJ').text("0");
+	$('#idPedidosDesayunoJ').text("0");
+	$('#idPedidosAlmuerzoV').text("0");
+	$('#idPedidosDesayunoV').text("0");
+	$('#idPedidosAlmuerzoS').text("0");
+	$('#idPedidosDesayunoS').text("0");
 	var contadorAlmuerzo=0;
 	var contadorDesayuno=0;
+	var contadorAlmuerzom=0;
+	var contadorDesayunom=0;
+	var contadorAlmuerzomi=0;
+	var contadorDesayunomi=0;
+	var contadorAlmuerzoj=0;
+	var contadorDesayunoj=0;
+	var contadorAlmuerzov=0;
+	var contadorDesayunov=0;
+	var contadorAlmuerzos=0;
+	var contadorDesayunos=0;
 
 	var conexion =firebase.database().ref('/Pedidos');  
 		conexion.on('child_added',function(snapshot){
@@ -585,48 +611,57 @@ setInterval(function calculapedidos(){
 		var rootref = firebase.database().ref("/Platos");
 		 	rootref.on('child_added',function(snapshotData){
 		 			
-		 		if(snapshotData.key == keyplate){
+		 		if(snapshotData.key == keyplate && snapshotData.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			
 
-		 			if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo" && snapshotData.val().dia.nombreDia == "lunes"){
+		 			if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && (snapshotData.val().dia.nombreDia).toLowerCase() == "lunes"){
 		 				contadorAlmuerzo += parseInt(cuenta);
 		 				$('#pedidosla').text(contadorAlmuerzo+"");
 		 				$('#idPedidosAlmuerzoL').text(contadorAlmuerzo+"");
-		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "lunes"){
+		 			}else if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && (snapshotData.val().dia.nombreDia).toLowerCase() == "lunes"){
 		 				contadorDesayuno += parseInt(cuenta);
 		 				$('#pedidosld').text(contadorDesayuno+"");
 		 				$('#idPedidosDesayunoL').text(contadorDesayuno+"");
-		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "martes"){
-		 				contadorDesayuno += parseInt(cuenta);
-		 				$('#pedidosmd').text(contadorDesayuno+"");
-		 				$('#idPedidosDesayunoM').text(contadorDesayuno+"");
-		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo" && snapshotData.val().dia.nombreDia == "martes"){
-		 				contadorAlmuerzo += parseInt(cuenta);
-		 				$('#pedidosma').text(contadorAlmuerzo+"");
-		 				$('#idPedidosAlmuerzoM').text(contadorAlmuerzo+"");
-		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "miercoles"){
-		 				contadorDesayuno += parseInt(cuenta);
-		 				$('#pedidosmid').text(contadorDesayuno+"");
-		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo" && snapshotData.val().dia.nombreDia == "miercoles"){
-		 				contadorAlmuerzo += parseInt(cuenta);
-		 				$('#pedidosmia').text(contadorAlmuerzo+"");
-		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "jueves"){
-		 				contadorDesayuno += parseInt(cuenta);
-		 				$('#pedidosjd').text(contadorDesayuno+"");
-		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo" && snapshotData.val().dia.nombreDia == "jueves"){
-		 				contadorAlmuerzo += parseInt(cuenta);
-		 				$('#pedidosja').text(contadorAlmuerzo+"");
-		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "viernes"){
-		 				contadorDesayuno += parseInt(cuenta);
-		 				$('#pedidosvd').text(contadorDesayuno+"");
-		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo" && snapshotData.val().dia.nombreDia == "viernes"){
-		 				contadorAlmuerzo += parseInt(cuenta);
-		 				$('#pedidosva').text(contadorAlmuerzo+"");
-		 			}else if(snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno" && snapshotData.val().dia.nombreDia == "sabado"){
-		 				contadorDesayuno += parseInt(cuenta);
-		 				$('#pedidossd').text(contadorDesayuno+"");
+		 			}else if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && (snapshotData.val().dia.nombreDia).toLowerCase() == "martes"){
+		 				contadorDesayunom += parseInt(cuenta);
+		 				$('#pedidosmd').text(contadorDesayunom+"");
+		 				$('#idPedidosDesayunoM').text(contadorDesayunom+"");
+		 			}else if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && (snapshotData.val().dia.nombreDia).toLowerCase() == "martes"){
+		 				contadorAlmuerzom += parseInt(cuenta);
+		 				$('#pedidosma').text(contadorAlmuerzom+"");
+		 				$('#idPedidosAlmuerzoM').text(contadorAlmuerzom+"");
+		 			}else if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && (snapshotData.val().dia.nombreDia).toLowerCase() == "miercoles"){
+		 				contadorDesayunomi += parseInt(cuenta);
+		 				$('#pedidosmid').text(contadorDesayunomi+"");
+		 				$('#idPedidosDesayunoI').text(contadorDesayunomi+"");
+		 			}else if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && (snapshotData.val().dia.nombreDia).toLowerCase() == "miercoles"){
+		 				contadorAlmuerzomi += parseInt(cuenta);
+		 				$('#pedidosmia').text(contadorAlmuerzomi+"");
+		 				$('#idPedidosAlmuerzoI').text(contadorAlmuerzomi+"");
+		 			}else if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && (snapshotData.val().dia.nombreDia).toLowerCase() == "jueves"){
+		 				contadorDesayunoj += parseInt(cuenta);
+		 				$('#pedidosjd').text(contadorDesayunoj+"");
+		 				$('#idPedidosDesayunoJ').text(contadorDesayunoj+"");
+		 			}else if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && (snapshotData.val().dia.nombreDia).toLowerCase() == "jueves"){
+		 				contadorAlmuerzoj += parseInt(cuenta);
+		 				$('#pedidosja').text(contadorAlmuerzoj+"");
+		 				$('#idPedidosAlmuerzoJ').text(contadorAlmuerzoj+"");
+		 			}else if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && (snapshotData.val().dia.nombreDia).toLowerCase() == "viernes"){
+		 				contadorDesayunov += parseInt(cuenta);
+		 				$('#pedidosvd').text(contadorDesayunov+"");
+		 				$('#idPedidosDesayunoV').text(contadorDesayunov+"");
+		 			}else if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && (snapshotData.val().dia.nombreDia).toLowerCase() == "viernes"){
+		 				contadorAlmuerzov += parseInt(cuenta);
+		 				$('#pedidosva').text(contadorAlmuerzov+"");
+		 				$('#idPedidosAlmuerzoV').text(contadorAlmuerzov+"");
+		 			}else if((snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && (snapshotData.val().dia.nombreDia).toLowerCase() == "sabado"){
+		 				contadorDesayunos += parseInt(cuenta);
+		 				$('#pedidossd').text(contadorDesayunos+"");
+		 				$('#idPedidosDesayunoS').text(contadorDesayunos+"");
 		 			}else{
-		 				contadorAlmuerzo += parseInt(cuenta);
-		 				$('#pedidossa').text(contadorAlmuerzo+"");
+		 				contadorAlmuerzos += parseInt(cuenta);
+		 				$('#pedidossa').text(contadorAlmuerzos+"");
+		 				$('#idPedidosAlmuerzoS').text(contadorAlmuerzos+"");
 		 			}
 		 		}
 		 	});
@@ -660,7 +695,7 @@ setInterval(function manejoAlmuerzo(){
 			 		var tipoCo = "";
 			 		
 
-			 		if(snapshotData.key == keyplate && snapshotData.val().dia.nombreDia == localStorage.getItem("day") && snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo"){
+			 		if(snapshotData.key == keyplate && snapshotData.val().dia.nombreDia == localStorage.getItem("day") && (snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && snapshotData.val().semana.numeroSemana == localStorage.getItem("week")){
 
 							var table = document.getElementById("tablepedidos"),
 				            row = table.insertRow(-1),//-1 es para ponerlo al final
@@ -674,7 +709,7 @@ setInterval(function manejoAlmuerzo(){
 				           user = n, 
 				           almuerzo= cantidadPla,
 				           total=  parseInt(snapshotData.val().precioPlato)*  parseInt(cantidadPla),
-				           tipoPlatillo = snapshotData.val().opcional,
+				           tipoPlatillo = snapshotData.val().nombrePlato,
 				           comentarios = comenta,
 				           estado= snapshot.val().estado;
 				           cell1.innerHTML =user;
@@ -725,7 +760,7 @@ setInterval(function manejoDesayuno(){
 		var rootref = firebase.database().ref("/Platos");
 		 	rootref.on('child_added',function(snapshotData){
 
-		 		if(snapshotData.key == keyplate && snapshotData.val().dia.nombreDia == localStorage.getItem("day") && snapshotData.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno"){
+		 		if(snapshotData.key == keyplate && snapshotData.val().dia.nombreDia == localStorage.getItem("day") && (snapshotData.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && snapshotData.val().semana.numeroSemana == localStorage.getItem("week")){
 						var table = document.getElementById("tablepedidos2"),
 			            row = table.insertRow(-1),//-1 es para ponerlo al final
 			            cell1 = row.insertCell(0),
@@ -738,7 +773,7 @@ setInterval(function manejoDesayuno(){
 			           user = n, 
 			           almuerzo= cantidadPla,
 			           total=  parseInt(snapshotData.val().precioPlato)*  parseInt(cantidadPla),
-			           tipoPlatillo = snapshotData.val().opcional,
+			           tipoPlatillo = snapshotData.val().nombrePlato,
 				       comentarios = comenta,
 			           estado= snapshot.val().estado;
 			           cell1.innerHTML =user;
@@ -813,10 +848,10 @@ $('#idPedidosDesayunoM').hover(function(){
 	$('#mymodal2').modal('show');
 });
 
-$('#idPedidosAlmuerzoMI').hover(function(){
+$('#idPedidosAlmuerzoI').hover(function(){
 	$('#mymodal').modal('show');
 });
-$('#idPedidosDesayunoMI').hover(function(){
+$('#idPedidosDesayunoI').hover(function(){
 	$('#mymodal2').modal('show');
 });
 
@@ -847,35 +882,73 @@ $(document).ready(function(){
 });
 
 setInterval(function extraeNombrePlatillos(){
+	var dl="";
+	var al="";
+	var dm="";
+	var am="";
+	var dmi="";
+	var ami="";
+	var dj="";
+	var aj="";
+	var dv="";
+	var av="";
+	var ds="";
+	var ass="";
+	$('#idNombreDesayunoL').text("...");
+	$('#idNombreAlmuerzoL').text("...");
+	$('#idNombreDesayunoM').text("...");
+	$('#idNombreAlmuerzoM').text("...");
+	$('#idNombreDesayunoMI').text("...");
+	$('#idNombreAlmuerzoMI').text("...");
+	$('#idNombreDesayunoJ').text("...");
+	$('#idNombreAlmuerzoJ').text("...");
+	$('#idNombreDesayunoV').text("...");
+	$('#idNombreAlmuerzoV').text("...");
+	$('#idNombreDesayunoS').text("...");
+	$('#idNombreAlmuerzoS').text("...");
 	var rootref = firebase.database().ref("/Platos");
 		 	rootref.on('child_added',function(snapshotDatad){
 
 		 		var nombre = snapshotDatad.val().nombrePlato;
-		 		if(snapshotDatad.val().dia.nombreDia == "lunes" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno"){
-					$('#idNombreDesayunoL').text(nombre);
-		 		}else if(snapshotDatad.val().dia.nombreDia == "lunes" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo"){
-		 			$('#idNombreAlmuerzoL').text(nombre);
-		 		}else if(snapshotDatad.val().dia.nombreDia == "martes" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno"){
-		 			$('#idNombreDesayunoM').text(nombre);
-		 		}else if(snapshotDatad.val().dia.nombreDia == "martes" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo"){
-		 			$('#idNombreAlmuerzoM').text(nombre);
-		 		}else if(snapshotDatad.val().dia.nombreDia == "miercoles" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno"){
-		 			$('#idNombreDesayunoMI').text(nombre);
-		 		}else if(snapshotDatad.val().dia.nombreDia == "miercoles" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo"){
-		 			$('#idNombreAlmuerzoMI').text(nombre);
-		 		}else if(snapshotDatad.val().dia.nombreDia == "jueves" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno"){
-		 			$('#idNombreDesayunoJ').text(nombre);
-		 		}else if(snapshotDatad.val().dia.nombreDia == "jueves" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo"){
-		 			$('#idNombreAlmuerzoJ').text(nombre);
-		 		}else if(snapshotDatad.val().dia.nombreDia == "viernes" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno"){
-		 			$('#idNombreDesayunoV').text(nombre);
-		 		}else if(snapshotDatad.val().dia.nombreDia == "viernes" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Almuerzo"){
-		 			$('#idNombreAlmuerzoV').text(nombre);
-		 		}else if(snapshotDatad.val().dia.nombreDia == "sabado" && snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida == "Desayuno"){
-		 			$('#idNombreDesayunoS').text(nombre);
-		 		}else{
-		 			$('#idNombreAlmuerzoS').text(nombre);
+		 		if(snapshotDatad.val().dia.nombreDia == "lunes" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			dl += nombre + " \n";
+					$('#idNombreDesayunoL').text(dl);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "lunes" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			al += nombre + " \n";
+		 			$('#idNombreAlmuerzoL').text(al);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "martes" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			dm += nombre + " \n";
+		 			$('#idNombreDesayunoM').text(dm);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "martes" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			am += nombre + " \n";
+		 			$('#idNombreAlmuerzoM').text(am);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "miercoles" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			dmi += nombre + " \n";
+		 			$('#idNombreDesayunoMI').text(dmi);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "miercoles" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			ami += nombre + " \n";
+		 			$('#idNombreAlmuerzoMI').text(ami);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "jueves" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			dj += nombre + " \n";
+		 			$('#idNombreDesayunoJ').text(dj);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "jueves" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			aj += nombre + "  \n";
+		 			$('#idNombreAlmuerzoJ').text(aj);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "viernes" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			dv += nombre + " \n";
+		 			$('#idNombreDesayunoV').text(dv);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "viernes" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			av += nombre + " \n";
+		 			$('#idNombreAlmuerzoV').text(av);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "sabado" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "desayuno" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			ds += nombre + " \n";
+		 			$('#idNombreDesayunoS').text(ds);
+		 		}else if(snapshotDatad.val().dia.nombreDia == "sabado" && (snapshotDatad.val().tiempoDeComida.nombreTiempoDeComida).toLowerCase() == "almuerzo" && snapshotDatad.val().semana.numeroSemana == localStorage.getItem("week")){
+		 			ass += nombre + " \n";
+		 			$('#idNombreAlmuerzoS').text(ass);
 		 		}
 		 	});
-
 },3000);
+
+
+
